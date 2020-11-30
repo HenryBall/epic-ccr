@@ -52,22 +52,22 @@ class CustomizedAxisTick extends PureComponent {
 }
 
 const _LineChart = ({ data }) => {
-  const [refAreaLeft, setRefAreLeft] = useState();
-  const [refAreaRight, setRefAreRight] = useState();
+  const [refAreaLeft, setRefAreaLeft] = useState();
+  const [refAreaRight, setRefAreaRight] = useState();
 
   return (
     <ResponsiveContainer width="100%" height={300}>
       <LineChart
         data={data}
         margin={{
-          top: 20,
+          top: 10,
+          right: 10,
         }}
-        onMouseDown={(e) => setRefAreaLeft(e.activeLabel)}
         onMouseMove={(e) => refAreaLeft && setRefAreaRight(e.activeLabel)}
       >
-        <CartesianGrid />
-        <XAxis dataKey="Name" height={60} />
-        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="Name" height={30} />
+        <YAxis width={30} />
         <Tooltip />
         <Legend />
         <Line
