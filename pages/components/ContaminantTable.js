@@ -10,6 +10,7 @@ const ContaminantTable = ({ rows }) => {
       <thead>
         <tr>
           <th className="p-4 text-left border border-grey-100">Contaminant</th>
+          <th className="p-4 text-left border border-grey-100">Units</th>
           <th className="p-4 text-left border border-grey-100">
             Average Level
           </th>
@@ -25,6 +26,7 @@ const ContaminantTable = ({ rows }) => {
         {rows.map((row, idx) => (
           <tr key={idx} className={generateRowStyles(idx)}>
             <td className="p-4">{row["Contaminant"]}</td>
+            <td className="p-4">{row["Units"]}</td>
             <td className="p-4">{row["Average Level"]}</td>
             <td className="p-4">{row["Maximum Contaminant Level (MCL)"]}</td>
             <td className="p-4">{row["Public Health Goal (PHG)"]}</td>

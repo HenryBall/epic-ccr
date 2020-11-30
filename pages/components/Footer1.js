@@ -1,5 +1,7 @@
 import Button from "./Button";
 
+import { Mail, Phone } from "react-feather";
+
 const Footer1 = () => {
   return (
     <div
@@ -9,41 +11,18 @@ const Footer1 = () => {
       <p className="mb-6 text-3xl font-bold tracking-wide text-white">
         Get in touch!
       </p>
-      <div className="flex">
-        <Button
-          pill={true}
-          border={true}
-          text="LinkedIn"
-          bgColor="primary"
-          textColor="white"
-          borderColor="white"
-          onClick={() =>
-            window.open(
-              "https://www.linkedin.com/in/henry-ball-789644139",
-              "_blank"
-            )
-          }
-        />
-        <div className="w-4" />
-        <Button
-          pill={true}
-          border={true}
-          text="Email"
-          bgColor="primary"
-          textColor="white"
-          borderColor="white"
-          onClick={() => window.open("mailto: henryball96gmail.com", "_blank")}
-        />
-        <div className="w-4" />
-        <Button
-          pill={true}
-          border={true}
-          text="Github"
-          bgColor="primary"
-          textColor="white"
-          borderColor="white"
-          onClick={() => window.open("https://github.com/HenryBall", "_blank")}
-        />
+      <div className="flex text-white">
+        <div className="flex flex-row">
+          <Mail />
+          <div className="w-2" />
+          <div>water.district@ourtown.com</div>
+        </div>
+        <div className="w-8" />
+        <div className="flex flex-row">
+          <Phone />
+          <div className="w-2" />
+          <div>(555) 555-5555</div>
+        </div>
       </div>
     </div>
   );

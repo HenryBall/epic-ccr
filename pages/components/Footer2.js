@@ -5,7 +5,7 @@ const Footer2 = () => {
       className="flex flex-col justify-center items-center"
     >
       <p className="text-md antialiased font-thin tracking-wide text-grey3">
-        Henry Ball © 2020
+        OurTown © 2020
       </p>
     </div>
   );

@@ -9,7 +9,7 @@ import Contaminants from "./views/Contaminants";
 import Footer1 from "./components/Footer1";
 import Footer2 from "./components/Footer2";
 
-import { processJsonRecords } from "./util/data";
+import { processJsonRecords } from "../util/data";
 
 const Home = () => {
   const [loading, setLoading] = useState();

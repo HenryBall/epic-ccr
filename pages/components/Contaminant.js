@@ -2,7 +2,7 @@ import LineChart from "./LineChart";
 
 import { MapPin, AlertTriangle } from "react-feather";
 
-const Contaminant = ({ name, records }) => {
+const Contaminant = ({ name, records, units }) => {
   const processRecordsForChart = (records) => {
     let data = {};
     records.forEach((record) => {
@@ -41,8 +41,11 @@ const Contaminant = ({ name, records }) => {
   };
 
   return (
-    <div>
-      <p className="text-2xl font-bold text-black">{name}</p>
+    <div className="py-8 border-t border-gray-300">
+      <p className="text-2xl font-bold text-black">
+        {name + " (" + units + ")"}
+      </p>
+      <div className="h-4" />
       <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2">
         <div className="col-span-1 p-8 rounded border border-black bg-white">
           <LineChart data={processRecordsForChart(records)} />

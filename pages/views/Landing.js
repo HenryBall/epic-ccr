@@ -47,8 +47,8 @@ const Landing = ({ scrollToStats }) => {
         ]}
       />
       <div>
-        <div className="text-4xl font-bold text-black">OurTown</div>
-        <div className="text-4xl font-bold text-primary">
+        <div className="text-4xl font-bold text-primary">OurTown</div>
+        <div className="text-4xl font-bold text-black">
           Drinking Water Consumer Confidence Report.
         </div>
         <div className="h-12" />

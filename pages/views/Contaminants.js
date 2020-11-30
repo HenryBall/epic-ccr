@@ -7,11 +7,13 @@ import Dropdown from "../components/Dropdown";
 import Contaminant from "../components/Contaminant";
 import ContaminantTable from "../components/ContaminantTable";
 
-import { getContaminantsAboveOrBelowMCL } from "../util/data";
+import {
+  getContaminantsAboveOrBelowMCL,
+  getIncreasingOrDecreasingContaminants,
+} from "../../util/data";
 
 const Contaminants = ({ contaminants }) => {
-  const [loading, setLoading] = useState();
-  const [orderBy, setOrderBy] = useState();
+  const [selected, setSelected] = useState();
   const [filterBy, setFilterBy] = useState();
   const [isInViewport, targetRef] = useIsInViewport();
   const [showingTable, setShowingTable] = useState(false);
@@ -27,50 +29,80 @@ const Contaminants = ({ contaminants }) => {
     );
   };
 
-  const onFilterDropdownSelect = (value) => {
+  const onSelectDropdownSelect = (value) => {
     if (value === "None") {
-      setOrderBy();
+      setSelected();
       setFilterBy();
     } else {
-      setOrderBy();
-      setFilterBy(value);
+      setFilterBy();
+      setSelected(value);
     }
   };
 
-  const onOrderDropdownSelect = (value) => {
+  const onFilterDropdownSelect = (value) => {
     if (value === "None") {
-      setOrderBy();
+      setSelected();
       setFilterBy();
     } else {
-      setFilterBy();
-      setOrderBy(value);
+      setSelected();
+      setFilterBy(value);
     }
   };
 
   const renderContaminantsCharts = (contaminants) => {
     if (contaminants) {
-      if (filterBy) {
-        return <Contaminant name={filterBy} records={contaminants[filterBy]} />;
+      if (selected) {
+        return (
+          <Contaminant
+            name={selected}
+            records={contaminants[selected]}
+            units={contaminants[selected][0]["Units"]}
+          />
+        );
       }
-      if (orderBy) {
-        let ordered;
-        if (orderBy === "Above MCL") {
-          ordered = getContaminantsAboveOrBelowMCL(contaminants, true);
-          return Object.keys(ordered).map((contaminant, idx) => (
+      if (filterBy) {
+        let filtered;
+        if (filterBy === "Above MCL") {
+          filtered = getContaminantsAboveOrBelowMCL(contaminants, true);
+          return Object.keys(filtered).map((contaminant, idx) => (
             <Contaminant
               key={idx}
               name={contaminant}
               records={contaminants[contaminant]}
+              units={contaminants[contaminant][0]["Units"]}
             />
           ));
         }
-        if (orderBy === "Below MCL") {
-          ordered = getContaminantsAboveOrBelowMCL(contaminants, false);
-          return Object.keys(ordered).map((contaminant, idx) => (
+        if (filterBy === "Below MCL") {
+          filtered = getContaminantsAboveOrBelowMCL(contaminants, false);
+          return Object.keys(filtered).map((contaminant, idx) => (
             <Contaminant
               key={idx}
               name={contaminant}
               records={contaminants[contaminant]}
+              units={contaminants[contaminant][0]["Units"]}
+            />
+          ));
+        }
+        if (filterBy === "Increasing") {
+          filtered = getIncreasingOrDecreasingContaminants(contaminants, true);
+          return Object.keys(filtered).map((contaminant, idx) => (
+            <Contaminant
+              key={idx}
+              name={contaminant}
+              records={contaminants[contaminant]}
+              units={contaminants[contaminant][0]["Units"]}
+            />
+          ));
+        }
+        if (filterBy === "Decreasing") {
+          filtered = getIncreasingOrDecreasingContaminants(contaminants, false);
+          return Object.keys(filtered).map((contaminant, idx) => (
+            <Contaminant
+              key={idx}
+              name={contaminant}
+              records={contaminants[contaminant]}
+              units={contaminants[contaminant][0]["Units"]}
             />
           ));
         }
@@ -80,6 +112,7 @@ const Contaminants = ({ contaminants }) => {
           key={idx}
           name={contaminant}
           records={contaminants[contaminant]}
+          units={contaminants[contaminant][0]["Units"]}
         />
       ));
     }
@@ -100,8 +133,8 @@ const Contaminants = ({ contaminants }) => {
         if (record["Type"] === "Public Health Goal (PHG)") {
           obj["Public Health Goal (PHG)"] = record["Concentration"];
         }
-        if (record["Source"] !== "") {
-          obj["Source"] = record["Source"];
+        if (record["Units"] !== "") {
+          obj["Units"] = record["Units"];
         }
       });
       compressed.push(obj);
@@ -111,15 +144,24 @@ const Contaminants = ({ contaminants }) => {
 
   const renderContaminantsTable = (contaminants) => {
     let compressed = [];
-    if (filterBy) {
+    if (selected) {
       compressed = compressContaminantsForTable({
-        [filterBy]: contaminants[filterBy],
+        [selected]: contaminants[selected],
       });
-    } else if (orderBy) {
-      const temp = getContaminantsAboveOrBelowMCL(
-        contaminants,
-        orderBy === "Above MCL" ? true : false
-      );
+    } else if (filterBy) {
+      let temp;
+      if (filterBy === "Above MCL") {
+        temp = getContaminantsAboveOrBelowMCL(contaminants, true);
+      }
+      if (filterBy === "Below MCL") {
+        temp = getContaminantsAboveOrBelowMCL(contaminants, false);
+      }
+      if (filterBy === "Increasing") {
+        temp = getIncreasingOrDecreasingContaminants(contaminants, true);
+      }
+      if (filterBy === "Decreasing") {
+        temp = getIncreasingOrDecreasingContaminants(contaminants, false);
+      }
       compressed = compressContaminantsForTable(temp);
     } else {
       compressed = compressContaminantsForTable(contaminants);
@@ -129,7 +171,7 @@ const Contaminants = ({ contaminants }) => {
 
   return (
     <div>
-      <div className="flex flex-col md:flex-row justify-between">
+      <div className="pb-4 flex flex-col md:flex-row justify-between">
         <div className="flex flex-col mb-8 font-bold">
           <p className={generateTextStyles(true)} ref={targetRef}>
             Contaminants
@@ -138,21 +180,21 @@ const Contaminants = ({ contaminants }) => {
         </div>
         <div className="flex flex-row self-end md:self-center">
           <Dropdown
-            name="Filter"
+            name="Select"
             options={contaminants ? ["None", ...Object.keys(contaminants)] : []}
-            onSelect={onFilterDropdownSelect}
+            onSelect={onSelectDropdownSelect}
           />
           <div className="w-4" />
           <Dropdown
-            name="Order By"
+            name="Filter By"
             options={[
               "None",
               "Above MCL",
               "Below MCL",
-              // "Increasing",
-              // "Decreasing",
+              "Increasing",
+              "Decreasing",
             ]}
-            onSelect={onOrderDropdownSelect}
+            onSelect={onFilterDropdownSelect}
           />
           <div className="w-4" />
           <Button
@@ -169,7 +211,6 @@ const Contaminants = ({ contaminants }) => {
             textColor="primary"
             borderColor="primary"
             onClick={() => {
-              setLoading(true);
               setShowingTable((prev) => !prev);
               setShowingCharts((prev) => !prev);
             }}
