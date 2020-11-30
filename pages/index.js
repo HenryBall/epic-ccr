@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import Papa from "papaparse";
 
 import Head from "next/head";
 import Landing from "./views/Landing";
@@ -8,39 +9,77 @@ import Contaminants from "./views/Contaminants";
 import Footer1 from "./components/Footer1";
 import Footer2 from "./components/Footer2";
 
+import { processJsonRecords } from "./util/data";
+
 const Home = () => {
-  const startRef = useRef(null);
+  const [loading, setLoading] = useState();
+  const [contaminants, setContaminants] = useState({});
+
+  const statsRef = useRef(null);
+  const contaminantsRef = useRef(null);
   const pageEndRef = useRef(null);
 
-  const scrollToStart = () => {
-    startRef.current.scrollIntoView({ behavior: "smooth" });
+  const scrollToStats = () => {
+    statsRef.current.scrollIntoView({ behavior: "smooth" });
   };
+  const scrollToContaminants = () => {
+    contaminantsRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // get & parse csv
+  useEffect(() => {
+    async function getData() {
+      const response = await fetch("/data.csv");
+      const reader = response.body.getReader();
+      const result = await reader.read();
+      const decoder = new TextDecoder("utf-8");
+      const csv = decoder.decode(result.value);
+      const results = Papa.parse(csv, { header: true });
+      const rows = results.data;
+      const processed = processJsonRecords(rows);
+      setLoading(false);
+      setContaminants(processed);
+    }
+    if (Object.keys(contaminants).length === 0) {
+      setLoading(true);
+      getData();
+    }
+  }, []);
 
   return (
     <div>
       <Head>
         <title>Henry Ball</title>
       </Head>
-      <div className="h-screen bg-grey">
-        {/* <Navbar scrollToBottom={scrollToBottom } /> */}
-        <div className="h-full py-8 px-8 md:px-12">
-          <Landing scrollToStart={scrollToStart} />
+      <div className="h-full xl:h-screen bg-gray-100">
+        <div className="h-full py-12 px-12 md:px-48">
+          <Landing scrollToStats={scrollToStats} />
         </div>
       </div>
-      <div ref={startRef} />
-      <div className="py-8 px-12 md:px-48">
-        <Statistics />
-      </div>
-      <div className="py-12 px-8 md:px-12 bg-grey">
-        <Contaminants />
-      </div>
-      <div className="px-8 md:px-24 bg-primary">
-        <Footer1 />
-      </div>
-      <div className="bg-grey">
-        <Footer2 />
-      </div>
-      <div ref={pageEndRef} />
+      {!loading && (
+        <>
+          <div ref={statsRef} />
+          <div className="h-screen bg-white">
+            <div className="h-full py-12 px-12 md:px-48">
+              <Statistics
+                contaminants={contaminants}
+                scrollToContaminants={scrollToContaminants}
+              />
+            </div>
+          </div>
+          <div ref={contaminantsRef} />
+          <div className="py-12 px-12 md:px-12 bg-gray-100">
+            <Contaminants contaminants={contaminants} />
+          </div>
+          <div className="px-12 md:px-24 bg-primary">
+            <Footer1 />
+          </div>
+          <div className="bg-gray-100">
+            <Footer2 />
+          </div>
+          <div ref={pageEndRef} />
+        </>
+      )}
     </div>
   );
 };

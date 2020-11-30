@@ -20,13 +20,14 @@ const Button = ({
       `hover:bg-${textColor}`,
       { rounded: !pill },
       { "rounded-full": pill },
-      { "border-2": border },
+      { border: border },
       { [`border-${borderColor}`]: border }
     );
   };
 
   return (
     <div className={generateButtonStyles()} onClick={() => onClick()}>
+      {/* <svg class="animate-spin h-5 w-5 mr-3" viewBox="0 0 24 24"></svg> */}
       {text}
     </div>
   );
