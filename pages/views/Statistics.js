@@ -1,4 +1,4 @@
-import Statistic from "../Components/Statistic";
+import Statistic from "../components/Statistic";
 
 import { Droplet } from "react-feather";
 

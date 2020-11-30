@@ -6,6 +6,7 @@ import {
   YAxis,
   Tooltip,
   Legend,
+  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
@@ -29,26 +30,26 @@ const data = [
 //   }
 // }
 
-// class CustomizedAxisTick extends PureComponent {
-//   render() {
-//     const { x, y, stroke, payload } = this.props;
+class CustomizedAxisTick extends PureComponent {
+  render() {
+    const { x, y, stroke, payload } = this.props;
 
-//     return (
-//       <g transform={`translate(${x},${y})`}>
-//         <text
-//           x={0}
-//           y={0}
-//           dy={16}
-//           textAnchor="end"
-//           fill="#666"
-//           transform="rotate(-35)"
-//         >
-//           {payload.value}
-//         </text>
-//       </g>
-//     );
-//   }
-// }
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill="#666"
+          transform="rotate(-35)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    );
+  }
+}
 
 const _LineChart = ({ data }) => {
   const [refAreaLeft, setRefAreLeft] = useState();
@@ -64,6 +65,7 @@ const _LineChart = ({ data }) => {
         onMouseDown={(e) => setRefAreaLeft(e.activeLabel)}
         onMouseMove={(e) => refAreaLeft && setRefAreaRight(e.activeLabel)}
       >
+        <CartesianGrid />
         <XAxis dataKey="Name" height={60} />
         <YAxis />
         <Tooltip />
