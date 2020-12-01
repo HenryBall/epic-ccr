@@ -3,7 +3,7 @@ import Image from "next/image";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 
-const Landing = ({ scrollToStats }) => {
+const Landing = ({ loading, scrollToStats }) => {
   const [isModalOneOpen, setIsModalOneOpen] = useState(false);
   const [isModalTwoOpen, setIsModalTwoOpen] = useState(false);
   const [isModalThreeOpen, setIsModalThreeOpen] = useState(false);
@@ -127,22 +127,25 @@ const Landing = ({ scrollToStats }) => {
           />
         </div>
       </div>
-      <div
-        onClick={scrollToStats}
-        className="cursor-pointer flex flex-col items-center text-primary"
-      >
-        <svg
-          className="mt-4 w-6 h-6 animate-bounce hover:text-grey2"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+      {loading && <div></div>}
+      {!loading && (
+        <div
+          onClick={scrollToStats}
+          className="cursor-pointer flex flex-col items-center text-primary"
         >
-          <path d="M19 14l-7 7m0 0l-7-7m7"></path>
-        </svg>
-      </div>
+          <svg
+            className="mt-4 w-6 h-6 animate-bounce hover:text-grey2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path d="M19 14l-7 7m0 0l-7-7m7"></path>
+          </svg>
+        </div>
+      )}
     </div>
   );
 };

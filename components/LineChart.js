@@ -62,6 +62,7 @@ const _LineChart = ({ data }) => {
         margin={{
           top: 10,
           right: 10,
+          left: 15,
         }}
         onMouseMove={(e) => refAreaLeft && setRefAreaRight(e.activeLabel)}
       >

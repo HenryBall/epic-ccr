@@ -53,7 +53,7 @@ const Home = () => {
       </Head>
       <div className="h-full xl:h-screen bg-gray-100">
         <div className="h-full py-12 px-12 md:px-48">
-          <Landing scrollToStats={scrollToStats} />
+          <Landing scrollToStats={scrollToStats} loading={loading} />
         </div>
       </div>
       {!loading && contaminants && (
