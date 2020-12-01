@@ -5,7 +5,7 @@ import { Droplet } from "react-feather";
 import {
   getContaminantsAboveOrBelowMCL,
   getIncreasingOrDecreasingContaminants,
-} from "../../util/Data";
+} from "../util/Data";
 
 const Statistics = ({ contaminants, scrollToContaminants }) => {
   return (

@@ -1,5 +1,3 @@
-import Button from "./Button";
-
 import { Mail, Phone } from "react-feather";
 
 const Footer1 = () => {

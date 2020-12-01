@@ -1,4 +1,4 @@
-export const getContaminantsAboveOrBelowMCL = (contaminants, above) => {
+const getContaminantsAboveOrBelowMCL = (contaminants, above) => {
   let ordered = {};
   Object.keys(contaminants)
     .filter((key) => {
@@ -29,10 +29,7 @@ export const getContaminantsAboveOrBelowMCL = (contaminants, above) => {
   return ordered;
 };
 
-export const getIncreasingOrDecreasingContaminants = (
-  contaminants,
-  increasing
-) => {
+const getIncreasingOrDecreasingContaminants = (contaminants, increasing) => {
   let ordered = {};
   Object.keys(contaminants)
     .filter((key) => {
@@ -65,7 +62,7 @@ export const getIncreasingOrDecreasingContaminants = (
   return ordered;
 };
 
-export const processJsonRecords = (jsonArray) => {
+const processJsonRecords = (jsonArray) => {
   let processed = {};
   for (let i = 0; i < jsonArray.length; i++) {
     if (jsonArray[i].Contaminant in processed) {
@@ -75,4 +72,10 @@ export const processJsonRecords = (jsonArray) => {
     }
   }
   return processed;
+};
+
+export {
+  processJsonRecords,
+  getContaminantsAboveOrBelowMCL,
+  getIncreasingOrDecreasingContaminants,
 };
