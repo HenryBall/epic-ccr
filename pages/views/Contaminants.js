@@ -10,7 +10,7 @@ import ContaminantTable from "../components/ContaminantTable";
 import {
   getContaminantsAboveOrBelowMCL,
   getIncreasingOrDecreasingContaminants,
-} from "../../util/data";
+} from "../../util/Data";
 
 const Contaminants = ({ contaminants }) => {
   const [selected, setSelected] = useState();
