@@ -2,14 +2,14 @@ import { useRef, useState, useEffect } from "react";
 import Papa from "papaparse";
 
 import Head from "next/head";
-import Landing from "./views/Landing";
-import Statistics from "./views/Statistics";
-import Contaminants from "./views/Contaminants";
+import Landing from "../views/Landing";
+import Statistics from "../views/Statistics";
+import Contaminants from "../views/Contaminants";
 
-import Footer1 from "./components/Footer1";
-import Footer2 from "./components/Footer2";
+import Footer1 from "../components/Footer1";
+import Footer2 from "../components/Footer2";
 
-import { processJsonRecords } from "./util/Data";
+import { processJsonRecords } from "../util/Data";
 
 const Home = () => {
   const [loading, setLoading] = useState();
