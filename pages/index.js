@@ -13,7 +13,7 @@ import { processJsonRecords } from "../util/data";
 
 const Home = () => {
   const [loading, setLoading] = useState();
-  const [contaminants, setContaminants] = useState({});
+  const [contaminants, setContaminants] = useState();
 
   const statsRef = useRef(null);
   const contaminantsRef = useRef(null);
@@ -40,7 +40,7 @@ const Home = () => {
       setLoading(false);
       setContaminants(processed);
     }
-    if (Object.keys(contaminants).length === 0) {
+    if (!contaminants) {
       setLoading(true);
       getData();
     }
@@ -56,7 +56,7 @@ const Home = () => {
           <Landing scrollToStats={scrollToStats} />
         </div>
       </div>
-      {!loading && (
+      {!loading && contaminants && (
         <>
           <div ref={statsRef} />
           <div className="h-screen bg-white">
