@@ -29,7 +29,7 @@ const Home = () => {
   // get & parse csv
   useEffect(() => {
     async function getData() {
-      const response = await fetch("/data.csv");
+      const response = await fetch("/data2.csv");
       const reader = response.body.getReader();
       const result = await reader.read();
       const decoder = new TextDecoder("utf-8");
